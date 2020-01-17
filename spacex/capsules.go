@@ -7,16 +7,16 @@ import (
 type CapsulesService service
 
 type Capsule struct {
-	CapsuleSerial 		string 		`json:"capsule_serial"`
-	CapsuleID 			string 		`json:"capsule_id"`
-	Status 				string 		`json:"status"`
-	OriginalLaunch 		string 		`json:"original_launch"`
-	OriginalLaunchUnix 	int 		`json:"original_launch_unix"`
-	Missions			[]Mission	`json:"missions"`
-	Landings 			int 		`json:"landings"`
-	Type 				int 		`json:"type"`
-	Details 			string 		`json:"details"`
-	ReuseCount 			int 		`json:"reuse_count"`
+	CapsuleSerial      string    `json:"capsule_serial"`
+	CapsuleID          string    `json:"capsule_id"`
+	Status             string    `json:"status"`
+	OriginalLaunch     string    `json:"original_launch"`
+	OriginalLaunchUnix int       `json:"original_launch_unix"`
+	Missions           []Mission `json:"missions"`
+	Landings           int       `json:"landings"`
+	Type               int       `json:"type"`
+	Details            string    `json:"details"`
+	ReuseCount         int       `json:"reuse_count"`
 }
 
 func (s *CapsulesService) Get(serial string) (*Capsule, error) {
@@ -30,7 +30,7 @@ func (s *CapsulesService) Get(serial string) (*Capsule, error) {
 		return nil, err
 	}
 
-	c:= new(Capsule)
+	c := new(Capsule)
 	err = s.client.Do(req, c)
 	if err != nil {
 		return nil, err

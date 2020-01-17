@@ -7,19 +7,19 @@ import (
 type CoresService service
 
 type Core struct {
-	CoreSerial 			string 		`json:"core_serial"`
-	Block 				int 		`json:"block"`
-	Status 				string 		`json:"status"`
-	OriginalLaunch 		string 		`json:"original_launch"`
-	OriginalLaunchUnix 	int 		`json:"original_launch_unix"`
-	Missions			[]Mission	`json:"missions"`
-	ReuseCount 			int 		`json:"reuse_count"`
-	RtlsAttempts 		int 		`json:"rtls_attempts"`
-	RtlsLandings 		int 		`json:"rtls_landings"`
-	AsdsAttempts 		int 		`json:"asds_attempts"`
-	AsdsLandings 		int 		`json:"asds_landings"`
-	WaterLanding 		bool 		`json:"water_landing"`
-	Details 			string 		`json:"details"`
+	CoreSerial         string    `json:"core_serial"`
+	Block              int       `json:"block"`
+	Status             string    `json:"status"`
+	OriginalLaunch     string    `json:"original_launch"`
+	OriginalLaunchUnix int       `json:"original_launch_unix"`
+	Missions           []Mission `json:"missions"`
+	ReuseCount         int       `json:"reuse_count"`
+	RtlsAttempts       int       `json:"rtls_attempts"`
+	RtlsLandings       int       `json:"rtls_landings"`
+	AsdsAttempts       int       `json:"asds_attempts"`
+	AsdsLandings       int       `json:"asds_landings"`
+	WaterLanding       bool      `json:"water_landing"`
+	Details            string    `json:"details"`
 }
 
 func (s *CoresService) Get(serial string) (*Core, error) {
@@ -33,7 +33,7 @@ func (s *CoresService) Get(serial string) (*Core, error) {
 		return nil, err
 	}
 
-	c:= new(Core)
+	c := new(Core)
 	err = s.client.Do(req, c)
 	if err != nil {
 		return nil, err

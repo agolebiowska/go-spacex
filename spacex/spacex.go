@@ -19,15 +19,15 @@ type service struct {
 }
 
 type Client struct {
-	http *http.Client
+	http    *http.Client
 	BaseURL *url.URL
 
 	common service
 
 	// Services
-	Capsules *CapsulesService
-	Cores *CoresService
-	Dragons *DragonsService
+	Capsules         *CapsulesService
+	Cores            *CoresService
+	Dragons          *DragonsService
 	HistoricalEvents *HistoricalEventsService
 }
 
