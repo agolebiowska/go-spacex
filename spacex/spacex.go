@@ -34,6 +34,12 @@ type Client struct {
 	HistoricalEvents *HistoricalEventsService
 	Info             *InfoService
 	LandingPads      *LandingPadsService
+	Launches         *LaunchesService
+	LaunchPads       *LaunchPadsService
+	Missions         *MissionsService
+	Payloads         *PayloadsService
+	Rockets          *RocketsService
+	Ships            *ShipsService
 }
 
 func NewClient(httpClient *http.Client) *Client {
@@ -50,6 +56,12 @@ func NewClient(httpClient *http.Client) *Client {
 	c.HistoricalEvents = (*HistoricalEventsService)(&c.common)
 	c.Info = (*InfoService)(&c.common)
 	c.LandingPads = (*LandingPadsService)(&c.common)
+	c.Launches = (*LaunchesService)(&c.common)
+	c.LaunchPads = (*LaunchPadsService)(&c.common)
+	c.Missions = (*MissionsService)(&c.common)
+	c.Payloads = (*PayloadsService)(&c.common)
+	c.Rockets = (*RocketsService)(&c.common)
+	c.Ships = (*ShipsService)(&c.common)
 	return c
 }
 

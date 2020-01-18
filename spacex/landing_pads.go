@@ -18,12 +18,6 @@ type LandingPad struct {
 	Details            string   `json:"details"`
 }
 
-type LandingPadsListOptions struct {
-	ID     bool `url:"id,omitempty"`     // Set as true to show mongo document id's
-	Limit  int  `url:"limit,omitempty"`  // Limit results returned, defaults to all documents returned
-	Offset int  `url:"offset,omitempty"` // Offset or skip results from the beginning of the query
-}
-
 func (s *LandingPadsService) Get(ID string) (*LandingPad, error) {
 	if ID == "" {
 		return nil, ErrInvalidID
@@ -44,7 +38,7 @@ func (s *LandingPadsService) Get(ID string) (*LandingPad, error) {
 	return c, nil
 }
 
-func (s *LandingPadsService) ListAll(opt *LandingPadsListOptions) ([]*LandingPad, error) {
+func (s *LandingPadsService) ListAll(opt *ListOptions) ([]*LandingPad, error) {
 	u := "landpads"
 	u, err := addOptions(u, opt)
 	if err != nil {

@@ -22,16 +22,6 @@ type Thruster struct {
 	Thrust Thrust `json:"thrust"`
 }
 
-type Thrust struct {
-	KN  float32 `json:"kN"`
-	Lbf int     `json:"lbf"`
-}
-
-type Mass struct {
-	Kg int `json:"kg"`
-	Lb int `json:"lb"`
-}
-
 type Volume struct {
 	CubicMeters int `json:"cubic_meters"`
 	CubicFeet   int `json:"cubic_feet"`
