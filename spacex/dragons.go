@@ -83,6 +83,12 @@ type Dragon struct {
 	Description        string             `json:"description"`
 }
 
+type DragonListOptions struct {
+	ID     bool `url:"id,omitempty"`     // Set as true to show mongo document id's
+	Limit  int  `url:"limit,omitempty"`  // Limit results returned, defaults to all documents returned
+	Offset int  `url:"offset,omitempty"` // Offset or skip results from the beginning of the query
+}
+
 func (s *DragonsService) Get(serial string) (*Dragon, error) {
 	if serial == "" {
 		return nil, ErrInvalidSerial
@@ -103,8 +109,13 @@ func (s *DragonsService) Get(serial string) (*Dragon, error) {
 	return c, nil
 }
 
-func (s *DragonsService) ListAll() ([]*Dragon, error) {
+func (s *DragonsService) ListAll(opt *DragonListOptions) ([]*Dragon, error) {
 	u := "dragons"
+	u, err := addOptions(u, opt)
+	if err != nil {
+		return nil, err
+	}
+
 	req, err := s.client.NewRequest("GET", u, nil)
 	if err != nil {
 		return nil, err

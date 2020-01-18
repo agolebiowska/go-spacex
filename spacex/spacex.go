@@ -8,6 +8,9 @@ import (
 	"io/ioutil"
 	"net/http"
 	"net/url"
+	"reflect"
+
+	"github.com/google/go-querystring/query"
 )
 
 const (
@@ -29,6 +32,8 @@ type Client struct {
 	Cores            *CoresService
 	Dragons          *DragonsService
 	HistoricalEvents *HistoricalEventsService
+	Info             *InfoService
+	LandingPads      *LandingPadsService
 }
 
 func NewClient(httpClient *http.Client) *Client {
@@ -43,6 +48,8 @@ func NewClient(httpClient *http.Client) *Client {
 	c.Cores = (*CoresService)(&c.common)
 	c.Dragons = (*DragonsService)(&c.common)
 	c.HistoricalEvents = (*HistoricalEventsService)(&c.common)
+	c.Info = (*InfoService)(&c.common)
+	c.LandingPads = (*LandingPadsService)(&c.common)
 	return c
 }
 
@@ -101,4 +108,24 @@ func (c *Client) Do(req *http.Request, result interface{}) error {
 	}
 
 	return nil
+}
+
+func addOptions(s string, opt interface{}) (string, error) {
+	v := reflect.ValueOf(opt)
+	if v.Kind() == reflect.Ptr && v.IsNil() {
+		return s, nil
+	}
+
+	u, err := url.Parse(s)
+	if err != nil {
+		return s, err
+	}
+
+	qs, err := query.Values(opt)
+	if err != nil {
+		return s, err
+	}
+
+	u.RawQuery = qs.Encode()
+	return u.String(), nil
 }

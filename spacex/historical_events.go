@@ -22,6 +22,13 @@ type HistoricalEvent struct {
 	Links         Links  `json:"links"`
 }
 
+type HistoricalEventListOptions struct {
+	ID           int    `url:"id,omitempty"` // Filter by historical event id
+	Start        string `url:"start,omitempty"`
+	End          string `url:"end,omitempty"`
+	FlightNumber int    `url:"flight_number,omitempty"`
+}
+
 func (s *HistoricalEventsService) Get(ID int) (*HistoricalEvent, error) {
 	if ID <= 0 {
 		return nil, ErrInvalidID
@@ -42,8 +49,13 @@ func (s *HistoricalEventsService) Get(ID int) (*HistoricalEvent, error) {
 	return c, nil
 }
 
-func (s *HistoricalEventsService) ListAll() ([]*HistoricalEvent, error) {
+func (s *HistoricalEventsService) ListAll(opt *HistoricalEventListOptions) ([]*HistoricalEvent, error) {
 	u := "history"
+	u, err := addOptions(u, opt)
+	if err != nil {
+		return nil, err
+	}
+
 	req, err := s.client.NewRequest("GET", u, nil)
 	if err != nil {
 		return nil, err

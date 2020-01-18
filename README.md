@@ -1,6 +1,6 @@
 # Go SpaceX
 
-<img align="right" alt="gopher" align="center" src="https://raw.githubusercontent.com/agolebiowska/go-spacex/master/img/maria_letta_character_47.png" width="300">
+<img align="right" alt="gopher" align="center" src="https://raw.githubusercontent.com/agolebiowska/go-spacex/master/img/maria_letta_character_47.png" width="45%">
 
 go-spacex is a Go client library for accessing the [SpaceX API v3](https://docs.spacexdata.com/?version=latest)
 
