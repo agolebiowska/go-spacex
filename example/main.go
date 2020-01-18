@@ -9,7 +9,7 @@ import (
 func main() {
 	c := spacex.NewClient(nil)
 
-	dragons, err := c.Dragons.ListAll()
+	dragons, err := c.Dragons.ListAll(nil)
 	if err != nil {
 		log.Fatal(err)
 	}
@@ -19,7 +19,7 @@ func main() {
 		fmt.Println(dragon.Name)
 	}
 
-	events, err := c.HistoricalEvents.ListAll()
+	events, err := c.HistoricalEvents.ListAll(nil)
 	if err != nil {
 		log.Fatal(err)
 	}
