@@ -8,16 +8,16 @@ import (
 type CapsulesService service
 
 type Capsule struct {
-	CapsuleSerial      string    `json:"capsule_serial"`
-	CapsuleID          string    `json:"capsule_id"`
-	Status             string    `json:"status"`
-	OriginalLaunch     string    `json:"original_launch"`
-	OriginalLaunchUnix int       `json:"original_launch_unix"`
-	Missions           []Mission `json:"missions"`
-	Landings           int       `json:"landings"`
-	Type               int       `json:"type"`
-	Details            string    `json:"details"`
-	ReuseCount         int       `json:"reuse_count"`
+	CapsuleSerial      string             `json:"capsule_serial"`
+	CapsuleID          string             `json:"capsule_id"`
+	Status             string             `json:"status"`
+	OriginalLaunch     string             `json:"original_launch"`
+	OriginalLaunchUnix int                `json:"original_launch_unix"`
+	Missions           []MinimisedMission `json:"missions"`
+	Landings           int                `json:"landings"`
+	Type               int                `json:"type"`
+	Details            string             `json:"details"`
+	ReuseCount         int                `json:"reuse_count"`
 }
 
 type CapsuleListOptions struct {
@@ -33,7 +33,7 @@ type CapsuleListOptions struct {
 
 func (s *CapsulesService) Get(serial string) (*Capsule, error) {
 	if serial == "" {
-		return nil, ErrInvalidSerial
+		return nil, ErrInvalidID
 	}
 
 	u := fmt.Sprintf("capsules/%v", serial)

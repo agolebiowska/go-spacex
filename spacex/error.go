@@ -10,10 +10,9 @@ import (
 )
 
 var (
-	ErrInvalidSerial = errors.New("invalid serial")
-	ErrInvalidID     = errors.New("invalid ID")
-	ErrNoResults     = errors.New("results are empty")
-	ErrInvalidJSON   = errors.New("invalid JSON")
+	ErrInvalidID   = errors.New("invalid ID")
+	ErrNoResults   = errors.New("results are empty")
+	ErrInvalidJSON = errors.New("invalid JSON")
 )
 
 var (

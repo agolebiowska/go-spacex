@@ -6,13 +6,6 @@ import (
 
 type LandingPadsService service
 
-type Location struct {
-	Name      string  `json:"name"`
-	Region    string  `json:"region"`
-	Latitude  float32 `json:"latitude"`
-	Longitude float32 `json:"longitude"`
-}
-
 type LandingPad struct {
 	ID                 string   `json:"id"`
 	FullName           string   `json:"full_name"`

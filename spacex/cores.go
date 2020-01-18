@@ -8,19 +8,19 @@ import (
 type CoresService service
 
 type Core struct {
-	CoreSerial         string    `json:"core_serial"`
-	Block              int       `json:"block"`
-	Status             string    `json:"status"`
-	OriginalLaunch     string    `json:"original_launch"`
-	OriginalLaunchUnix int       `json:"original_launch_unix"`
-	Missions           []Mission `json:"missions"`
-	ReuseCount         int       `json:"reuse_count"`
-	RtlsAttempts       int       `json:"rtls_attempts"`
-	RtlsLandings       int       `json:"rtls_landings"`
-	AsdsAttempts       int       `json:"asds_attempts"`
-	AsdsLandings       int       `json:"asds_landings"`
-	WaterLanding       bool      `json:"water_landing"`
-	Details            string    `json:"details"`
+	CoreSerial         string             `json:"core_serial"`
+	Block              int                `json:"block"`
+	Status             string             `json:"status"`
+	OriginalLaunch     string             `json:"original_launch"`
+	OriginalLaunchUnix int                `json:"original_launch_unix"`
+	Missions           []MinimisedMission `json:"missions"`
+	ReuseCount         int                `json:"reuse_count"`
+	RtlsAttempts       int                `json:"rtls_attempts"`
+	RtlsLandings       int                `json:"rtls_landings"`
+	AsdsAttempts       int                `json:"asds_attempts"`
+	AsdsLandings       int                `json:"asds_landings"`
+	WaterLanding       bool               `json:"water_landing"`
+	Details            string             `json:"details"`
 }
 
 type CoresListOptions struct {
@@ -39,7 +39,7 @@ type CoresListOptions struct {
 
 func (s *CoresService) Get(serial string) (*Core, error) {
 	if serial == "" {
-		return nil, ErrInvalidSerial
+		return nil, ErrInvalidID
 	}
 
 	u := fmt.Sprintf("cores/%v", serial)

@@ -91,7 +91,7 @@ type DragonListOptions struct {
 
 func (s *DragonsService) Get(serial string) (*Dragon, error) {
 	if serial == "" {
-		return nil, ErrInvalidSerial
+		return nil, ErrInvalidID
 	}
 
 	u := fmt.Sprintf("dragons/%v", serial)
