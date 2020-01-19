@@ -18,7 +18,7 @@ type Mission struct {
 	PayloadIds    []string `json:"payload_ids"`
 	Wikipedia     string   `json:"wikipedia"`
 	Website       string   `json:"website"`
-	Twitter       string   `json:"twitter"`
+	Twitter       *string  `json:"twitter"`
 	Description   string   `json:"description"`
 }
 
@@ -45,9 +45,9 @@ func (s *MissionsService) Get(missionID string) (*Mission, error) {
 	return c, nil
 }
 
-func (s *MissionsService) ListAll(opt *MissionsListOptions) ([]*Mission, error) {
+func (s *MissionsService) ListAll(baseOpt *ListOptions, extOpt *MissionsListOptions) ([]*Mission, error) {
 	u := "missions"
-	u, err := addOptions(u, opt)
+	u, err := addOptions(u, baseOpt, extOpt)
 	if err != nil {
 		return nil, err
 	}

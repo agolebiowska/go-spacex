@@ -23,12 +23,12 @@ type PayloadWeight struct {
 }
 
 type RocketFirstStage struct {
-	Reusable       bool   `json:"reusable"`
-	Engines        int    `json:"engines"`
-	FuelAmountTons int    `json:"fuel_amount_tons"`
-	BurnTimeSec    int    `json:"burn_time_sec"`
-	ThrustSeaLevel Thrust `json:"thrust_sea_level"`
-	ThrustVacuum   Thrust `json:"thrust_vacuum"`
+	Reusable       bool    `json:"reusable"`
+	Engines        int     `json:"engines"`
+	FuelAmountTons float64 `json:"fuel_amount_tons"`
+	BurnTimeSec    int     `json:"burn_time_sec"`
+	ThrustSeaLevel Thrust  `json:"thrust_sea_level"`
+	ThrustVacuum   Thrust  `json:"thrust_vacuum"`
 }
 
 type CompositeFairing struct {
@@ -43,16 +43,22 @@ type Payloads struct {
 }
 
 type RocketSecondStage struct {
+	Reusable       bool     `json:"reusable"`
 	Engines        int      `json:"engines"`
-	FuelAmountTons int      `json:"fuel_amount_tons"`
+	FuelAmountTons float64  `json:"fuel_amount_tons"`
 	BurnTimeSec    int      `json:"burn_time_sec"`
 	Thrust         Thrust   `json:"thrust"`
 	Payloads       Payloads `json:"payloads"`
 }
 
 type LandingLegs struct {
-	Number   int    `json:"number"`
-	Material string `json:"material"`
+	Number   int     `json:"number"`
+	Material *string `json:"material"`
+}
+
+type Isp struct {
+	SeaLevel int `json:"sea_level"`
+	Vacuum   int `json:"vacuum"`
 }
 
 type Engines struct {
@@ -60,6 +66,7 @@ type Engines struct {
 	Type           string  `json:"type"`
 	Version        string  `json:"version"`
 	Layout         string  `json:"layout"`
+	Isp            Isp     `json:"isp"`
 	EngineLossMax  int     `json:"engine_loss_max"`
 	Propellant1    string  `json:"propellant_1"`
 	Propellant2    string  `json:"propellant_2"`
@@ -85,6 +92,8 @@ type Rocket struct {
 	FirstStage     RocketFirstStage  `json:"first_stage"`
 	SecondStage    RocketSecondStage `json:"second_stage"`
 	Engines        Engines           `json:"engines"`
+	LandingLegs    LandingLegs       `json:"landing_legs"`
+	FlickrImages   []string          `json:"flickr_images"`
 	Wikipedia      string            `json:"wikipedia"`
 	Description    string            `json:"description"`
 	RocketId       string            `json:"rocket_id"`

@@ -19,6 +19,7 @@ type Thruster struct {
 	Pods   int    `json:"pods"`
 	Fuel1  string `json:"fuel_1"`
 	Fuel2  string `json:"fuel_2"`
+	Isp    int    `json:"isp"`
 	Thrust Thrust `json:"thrust"`
 }
 
@@ -58,8 +59,6 @@ type Dragon struct {
 	DryMassLb          int                `json:"dry_mass_lb"`
 	FirstFlight        string             `json:"first_flight"`
 	HeatShield         HeatShield         `json:"heat_shield"`
-	WaterLanding       bool               `json:"water_landing"`
-	Details            string             `json:"details"`
 	Thrusters          []Thruster         `json:"thrusters"`
 	LaunchPayloadMass  Mass               `json:"launch_payload_mass"`
 	LaunchPayloadVol   Volume             `json:"launch_payload_vol"`
@@ -69,6 +68,7 @@ type Dragon struct {
 	Trunk              Trunk              `json:"trunk"`
 	HeightWTrunk       Dimensions         `json:"height_w_trunk"`
 	Diameter           Dimensions         `json:"diameter"`
+	FlickrImages       []string           `json:"flickr_images"`
 	Wikipedia          string             `json:"wikipedia"`
 	Description        string             `json:"description"`
 }
@@ -99,9 +99,9 @@ func (s *DragonsService) Get(serial string) (*Dragon, error) {
 	return c, nil
 }
 
-func (s *DragonsService) ListAll(opt *DragonListOptions) ([]*Dragon, error) {
+func (s *DragonsService) ListAll(baseOpt *ListOptions, extOpt *DragonListOptions) ([]*Dragon, error) {
 	u := "dragons"
-	u, err := addOptions(u, opt)
+	u, err := addOptions(u, baseOpt, extOpt)
 	if err != nil {
 		return nil, err
 	}

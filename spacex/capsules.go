@@ -11,12 +11,12 @@ type Capsule struct {
 	CapsuleSerial      string             `json:"capsule_serial"`
 	CapsuleID          string             `json:"capsule_id"`
 	Status             string             `json:"status"`
-	OriginalLaunch     string             `json:"original_launch"`
-	OriginalLaunchUnix int                `json:"original_launch_unix"`
+	OriginalLaunch     *string            `json:"original_launch"`
+	OriginalLaunchUnix *int               `json:"original_launch_unix"`
 	Missions           []MinimisedMission `json:"missions"`
 	Landings           int                `json:"landings"`
-	Type               int                `json:"type"`
-	Details            string             `json:"details"`
+	Type               string             `json:"type"`
+	Details            *string            `json:"details"`
 	ReuseCount         int                `json:"reuse_count"`
 }
 
@@ -51,23 +51,23 @@ func (s *CapsulesService) Get(serial string) (*Capsule, error) {
 	return c, nil
 }
 
-func (s *CapsulesService) ListAll(opt *CapsuleListOptions) ([]*Capsule, error) {
+func (s *CapsulesService) ListAll(baseOpt *ListOptions, extOpt *CapsuleListOptions) ([]*Capsule, error) {
 	u := "capsules"
-	return s.list(u, opt)
+	return s.list(u, baseOpt, extOpt)
 }
 
-func (s *CapsulesService) ListUpcoming(opt *CapsuleListOptions) ([]*Capsule, error) {
+func (s *CapsulesService) ListUpcoming(baseOpt *ListOptions, extOpt *CapsuleListOptions) ([]*Capsule, error) {
 	u := "capsules/upcoming"
-	return s.list(u, opt)
+	return s.list(u, baseOpt, extOpt)
 }
 
-func (s *CapsulesService) ListPast(opt *CapsuleListOptions) ([]*Capsule, error) {
+func (s *CapsulesService) ListPast(baseOpt *ListOptions, extOpt *CapsuleListOptions) ([]*Capsule, error) {
 	u := "capsules/past"
-	return s.list(u, opt)
+	return s.list(u, baseOpt, extOpt)
 }
 
-func (s *CapsulesService) list(u string, opt *CapsuleListOptions) ([]*Capsule, error) {
-	u, err := addOptions(u, opt)
+func (s *CapsulesService) list(u string, baseOpt *ListOptions, extOpt *CapsuleListOptions) ([]*Capsule, error) {
+	u, err := addOptions(u, baseOpt, extOpt)
 	if err != nil {
 		return nil, err
 	}

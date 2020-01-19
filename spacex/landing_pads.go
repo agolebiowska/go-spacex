@@ -38,9 +38,9 @@ func (s *LandingPadsService) Get(ID string) (*LandingPad, error) {
 	return c, nil
 }
 
-func (s *LandingPadsService) ListAll(opt *ListOptions) ([]*LandingPad, error) {
+func (s *LandingPadsService) ListAll(baseOpt *ListOptions, extOpt *ListOptions) ([]*LandingPad, error) {
 	u := "landpads"
-	u, err := addOptions(u, opt)
+	u, err := addOptions(u, baseOpt, extOpt)
 	if err != nil {
 		return nil, err
 	}

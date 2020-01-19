@@ -8,6 +8,13 @@ type Headquarters struct {
 	State   string `json:"state"`
 }
 
+type InfoLinks struct {
+	Website     *string `json:"website"`
+	Flickr      *string `json:"flickr"`
+	Twitter     *string `json:"twitter"`
+	ElonTwitter *string `json:"elon_twitter"`
+}
+
 type Info struct {
 	Name          string       `json:"name"`
 	Founder       string       `json:"founder"`
@@ -20,19 +27,20 @@ type Info struct {
 	CTO           string       `json:"cto"`
 	COO           string       `json:"coo"`
 	CtoPropulsion string       `json:"cto_propulsion"`
-	Valuation     string       `json:"valuation"`
+	Valuation     int64        `json:"valuation"`
 	Headquarters  Headquarters `json:"headquarters"`
+	Links         InfoLinks    `json:"links"`
 	Summary       string       `json:"summary"`
 }
 
-func (s *InfoService) ListAll() ([]*Info, error) {
+func (s *InfoService) ListAll() (*Info, error) {
 	u := "info"
 	req, err := s.client.NewRequest("GET", u, nil)
 	if err != nil {
 		return nil, err
 	}
 
-	var c []*Info
+	c := new(Info)
 	err = s.client.Do(req, &c)
 	if err != nil {
 		return nil, err

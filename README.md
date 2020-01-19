@@ -1,4 +1,5 @@
 # Go SpaceX
+[![Build Status](https://travis-ci.com/agolebiowska/go-spacex.svg?branch=master)](https://travis-ci.com/agolebiowska/go-spacex)
 
 <img align="right" alt="gopher" align="center" src="https://raw.githubusercontent.com/agolebiowska/go-spacex/master/img/maria_letta_character_47.png" width="45%">
 

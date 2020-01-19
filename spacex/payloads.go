@@ -7,21 +7,21 @@ import (
 type PayloadsService service
 
 type OrbitParams struct {
-	ReferenceSystem string  `json:"reference_system"`
-	Regime          string  `json:"regime"`
-	Longitude       int     `json:"longitude"`
-	SemiMajorAxisKm float32 `json:"semi_major_axis_km"`
-	Eccentricity    float32 `json:"eccentricity"`
-	PeriapsisKm     float32 `json:"periapsis_km"`
-	ApoapsisKm      float32 `json:"apoapsis_km"`
-	InclinationDeg  float32 `json:"inclination_deg"`
-	PeriodMin       float32 `json:"period_min"`
-	LifespanYears   int     `json:"lifespan_years"`
-	Epoch           string  `json:"epoch"`
-	MeanMotion      float32 `json:"mean_motion"`
-	Raan            float32 `json:"raan"`
-	ArgOfPericenter float32 `json:"arg_of_pericenter"`
-	MeanAnomaly     float32 `json:"mean_anomaly"`
+	ReferenceSystem string   `json:"reference_system"`
+	Regime          string   `json:"regime"`
+	Longitude       *float64 `json:"longitude"`
+	SemiMajorAxisKm *float64 `json:"semi_major_axis_km"`
+	Eccentricity    *float64 `json:"eccentricity"`
+	PeriapsisKm     *float64 `json:"periapsis_km"`
+	ApoapsisKm      *float64 `json:"apoapsis_km"`
+	InclinationDeg  *float64 `json:"inclination_deg"`
+	PeriodMin       *float64 `json:"period_min"`
+	LifespanYears   *float64 `json:"lifespan_years"`
+	Epoch           string   `json:"epoch"`
+	MeanMotion      *float64 `json:"mean_motion"`
+	Raan            *float64 `json:"raan"`
+	ArgOfPericenter *float64 `json:"arg_of_pericenter"`
+	MeanAnomaly     *float64 `json:"mean_anomaly"`
 }
 
 type Payload struct {
@@ -32,10 +32,11 @@ type Payload struct {
 	Nationality    string      `json:"nationality"`
 	Manufacturer   string      `json:"manufacturer"`
 	PayloadType    string      `json:"payload_type"`
-	PayloadMassKg  int         `json:"payload_mass_kg"`
-	PayloadMassLbs int         `json:"payload_mass_lbs"`
+	PayloadMassKg  *float32    `json:"payload_mass_kg"`
+	PayloadMassLbs *float32    `json:"payload_mass_lbs"`
 	Orbit          string      `json:"orbit"`
 	OrbitParams    OrbitParams `json:"orbit_params"`
+	UID            string      `json:"uid"`
 }
 
 func (s *PayloadsService) Get(payloadID string) (*Dragon, error) {

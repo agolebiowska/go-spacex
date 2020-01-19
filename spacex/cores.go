@@ -9,10 +9,10 @@ type CoresService service
 
 type Core struct {
 	CoreSerial         string             `json:"core_serial"`
-	Block              int                `json:"block"`
+	Block              *int               `json:"block"`
 	Status             string             `json:"status"`
-	OriginalLaunch     string             `json:"original_launch"`
-	OriginalLaunchUnix int                `json:"original_launch_unix"`
+	OriginalLaunch     *string            `json:"original_launch"`
+	OriginalLaunchUnix *int               `json:"original_launch_unix"`
 	Missions           []MinimisedMission `json:"missions"`
 	ReuseCount         int                `json:"reuse_count"`
 	RtlsAttempts       int                `json:"rtls_attempts"`
@@ -20,7 +20,7 @@ type Core struct {
 	AsdsAttempts       int                `json:"asds_attempts"`
 	AsdsLandings       int                `json:"asds_landings"`
 	WaterLanding       bool               `json:"water_landing"`
-	Details            string             `json:"details"`
+	Details            *string            `json:"details"`
 }
 
 type CoresListOptions struct {
@@ -57,23 +57,23 @@ func (s *CoresService) Get(serial string) (*Core, error) {
 	return c, nil
 }
 
-func (s *CoresService) ListAll(opt *CoresListOptions) ([]*Core, error) {
+func (s *CoresService) ListAll(baseOpt *ListOptions, extOpt *CoresListOptions) ([]*Core, error) {
 	u := "cores"
-	return s.list(u, opt)
+	return s.list(u, baseOpt, extOpt)
 }
 
-func (s *CoresService) ListUpcoming(opt *CoresListOptions) ([]*Core, error) {
+func (s *CoresService) ListUpcoming(baseOpt *ListOptions, extOpt *CoresListOptions) ([]*Core, error) {
 	u := "cores/upcoming"
-	return s.list(u, opt)
+	return s.list(u, baseOpt, extOpt)
 }
 
-func (s *CoresService) ListPast(opt *CoresListOptions) ([]*Core, error) {
+func (s *CoresService) ListPast(baseOpt *ListOptions, extOpt *CoresListOptions) ([]*Core, error) {
 	u := "cores/past"
-	return s.list(u, opt)
+	return s.list(u, baseOpt, extOpt)
 }
 
-func (s *CoresService) list(u string, opt *CoresListOptions) ([]*Core, error) {
-	u, err := addOptions(u, opt)
+func (s *CoresService) list(u string, baseOpt *ListOptions, extOpt *CoresListOptions) ([]*Core, error) {
+	u, err := addOptions(u, baseOpt, extOpt)
 	if err != nil {
 		return nil, err
 	}

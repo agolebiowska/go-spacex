@@ -9,7 +9,7 @@ type ShipsService service
 type Ship struct {
 	ShipID             string             `json:"ship_id"`
 	ShipName           string             `json:"ship_name"`
-	ShipModel          int                `json:"ship_model"`
+	ShipModel          *int               `json:"ship_model"`
 	ShipType           string             `json:"ship_type"`
 	Roles              []string           `json:"roles"`
 	Active             bool               `json:"active"`
@@ -22,11 +22,11 @@ type Ship struct {
 	YearBuilt          int                `json:"year_built"`
 	HomePort           string             `json:"home_port"`
 	Status             string             `json:"status"`
-	SpeedKn            int                `json:"speed_kn"`
-	CourseDeg          int                `json:"course_deg"`
+	SpeedKn            *int               `json:"speed_kn"`
+	CourseDeg          *int               `json:"course_deg"`
 	Position           Position           `json:"position"`
-	SuccessfulLandings int                `json:"successful_landings"`
-	AttemptedLandings  int                `json:"attempted_landings"`
+	SuccessfulLandings *int               `json:"successful_landings"`
+	AttemptedLandings  *int               `json:"attempted_landings"`
 	Missions           []MinimisedMission `json:"missions"`
 	Url                string             `json:"url"`
 	Image              string             `json:"image"`
@@ -78,9 +78,9 @@ func (s *ShipsService) Get(shipID string) (*Ship, error) {
 	return c, nil
 }
 
-func (s *ShipsService) ListAll(opt *ShipsListOptions) ([]*Ship, error) {
+func (s *ShipsService) ListAll(baseOpt *ListOptions, extOpt *ShipsListOptions) ([]*Ship, error) {
 	u := "ships"
-	u, err := addOptions(u, opt)
+	u, err := addOptions(u, baseOpt, extOpt)
 	if err != nil {
 		return nil, err
 	}

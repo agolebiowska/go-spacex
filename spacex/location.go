@@ -3,6 +3,6 @@ package spacex
 type Location struct {
 	Name      string  `json:"name"`
 	Region    string  `json:"region"`
-	Latitude  float32 `json:"latitude"`
-	Longitude float32 `json:"longitude"`
+	Latitude  float64 `json:"latitude"`
+	Longitude float64 `json:"longitude"`
 }

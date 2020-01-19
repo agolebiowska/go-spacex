@@ -7,9 +7,9 @@ import (
 type HistoricalEventsService service
 
 type Links struct {
-	Reddit    string `json:"reddit"`
-	Article   string `json:"article"`
-	Wikipedia string `json:"wikipedia"`
+	Reddit    *string `json:"reddit"`
+	Article   *string `json:"article"`
+	Wikipedia *string `json:"wikipedia"`
 }
 
 type HistoricalEvent struct {
@@ -17,7 +17,7 @@ type HistoricalEvent struct {
 	Title         string `json:"title"`
 	EventDateUtc  string `json:"event_date_utc"`
 	EventDateUnix int    `json:"event_date_unix"`
-	FlightNumber  int    `json:"flight_number"`
+	FlightNumber  *int   `json:"flight_number"`
 	Details       string `json:"details"`
 	Links         Links  `json:"links"`
 }
@@ -49,9 +49,9 @@ func (s *HistoricalEventsService) Get(ID int) (*HistoricalEvent, error) {
 	return c, nil
 }
 
-func (s *HistoricalEventsService) ListAll(opt *HistoricalEventListOptions) ([]*HistoricalEvent, error) {
+func (s *HistoricalEventsService) ListAll(baseOpt *ListOptions, extOpt *HistoricalEventListOptions) ([]*HistoricalEvent, error) {
 	u := "history"
-	u, err := addOptions(u, opt)
+	u, err := addOptions(u, baseOpt, extOpt)
 	if err != nil {
 		return nil, err
 	}

@@ -2,22 +2,21 @@ package spacex
 
 import (
 	"fmt"
-	"time"
 )
 
 type LaunchesService service
 
 type FirstStageCore struct {
-	CoreSerial     string `json:"core_serial"`
-	Flight         int    `json:"flight"`
-	Block          int    `json:"block"`
-	Gridfins       bool   `json:"gridfins"`
-	Legs           bool   `json:"legs"`
-	Reused         bool   `json:"reused"`
-	LandSuccess    bool   `json:"land_success"`
-	LandingIntent  bool   `json:"landing_intent"`
-	LandingType    string `json:"landing_type"`
-	LandingVehicle string `json:"landing_vehicle"`
+	CoreSerial     string  `json:"core_serial"`
+	Flight         int     `json:"flight"`
+	Block          *int    `json:"block"`
+	Gridfins       *bool   `json:"gridfins"`
+	Legs           *bool   `json:"legs"`
+	Reused         *bool   `json:"reused"`
+	LandSuccess    *bool   `json:"land_success"`
+	LandingIntent  *bool   `json:"landing_intent"`
+	LandingType    *string `json:"landing_type"`
+	LandingVehicle *string `json:"landing_vehicle"`
 }
 
 type FirstStage struct {
@@ -30,14 +29,14 @@ type SecondStage struct {
 }
 
 type Fairings struct {
-	Reused          bool `json:"reused"`
-	RecoveryAttempt bool `json:"recovery_attempt"`
-	Recovered       bool `json:"recovered"`
-	Ship            int  `json:"ship"`
+	Reused          bool    `json:"reused"`
+	RecoveryAttempt bool    `json:"recovery_attempt"`
+	Recovered       bool    `json:"recovered"`
+	Ship            *string `json:"ship"`
 }
 
 type Telemetry struct {
-	FlightClub string `json:"flight_club"`
+	FlightClub *string `json:"flight_club"`
 }
 
 type LaunchSite struct {
@@ -46,18 +45,24 @@ type LaunchSite struct {
 	SiteNameLong string `json:"site_name_long"`
 }
 
+type LaunchFailureDetails struct {
+	Time     int     `json:"time"`
+	Altitude *int    `json:"altitude"`
+	Reason   *string `json:"reason"`
+}
+
 type LaunchLinks struct {
 	MissionPatch      string   `json:"mission_patch"`
 	MissionPatchSmall string   `json:"mission_patch_small"`
-	RedditCampaign    string   `json:"reddit_campaign"`
-	RedditLaunch      string   `json:"reddit_launch"`
-	RedditRecovery    int      `json:"reddit_recovery"`
-	RedditMedia       string   `json:"reddit_media"`
-	Presskit          string   `json:"presskit"`
-	ArticleLink       string   `json:"article_link"`
-	Wikipedia         string   `json:"wikipedia"`
-	VideoLink         string   `json:"video_link"`
-	YoutubeId         string   `json:"youtube_id"`
+	RedditCampaign    *string  `json:"reddit_campaign"`
+	RedditLaunch      *string  `json:"reddit_launch"`
+	RedditRecovery    *string  `json:"reddit_recovery"`
+	RedditMedia       *string  `json:"reddit_media"`
+	Presskit          *string  `json:"presskit"`
+	ArticleLink       *string  `json:"article_link"`
+	Wikipedia         *string  `json:"wikipedia"`
+	VideoLink         *string  `json:"video_link"`
+	YoutubeId         *string  `json:"youtube_id"`
 	FlickrImages      []string `json:"flickr_images"`
 }
 
@@ -89,11 +94,11 @@ type Timeline struct {
 type Launch struct {
 	FlightNumber          int             `json:"flight_number"`
 	MissionName           string          `json:"mission_name"`
-	MissionId             string          `json:"mission_id"`
+	MissionId             []string        `json:"mission_id"`
 	LaunchYear            string          `json:"launch_year"`
 	LaunchDateUnix        int             `json:"launch_date_unix"`
-	LaunchDateUtc         time.Time       `json:"launch_date_utc"`
-	LaunchDateLocal       time.Time       `json:"launch_date_local"`
+	LaunchDateUtc         string          `json:"launch_date_utc"`
+	LaunchDateLocal       string          `json:"launch_date_local"`
 	IsTentative           bool            `json:"is_tentative"`
 	TentativeMaxPrecision string          `json:"tentative_max_precision"`
 	Tbd                   bool            `json:"tbd"`
@@ -104,15 +109,16 @@ type Launch struct {
 	LaunchSite            LaunchSite      `json:"launch_site"`
 	LaunchSuccess         bool            `json:"launch_success"`
 	LaunchLinks           LaunchLinks     `json:"links"`
-	Details               string          `json:"details"`
+	Details               *string         `json:"details"`
 	Upcoming              bool            `json:"upcoming"`
-	StaticFireDateUtc     string          `json:"static_fire_date_utc"`
-	StaticFireDateUnix    int             `json:"static_fire_date_unix"`
+	StaticFireDateUtc     *string         `json:"static_fire_date_utc"`
+	StaticFireDateUnix    *int            `json:"static_fire_date_unix"`
 	TimeLine              Timeline        `json:"timeline"`
+	Crew                  *[]string       `json:"crew"`
 }
 
-func (s *LaunchesService) Get(flightNumber string) (*Launch, error) {
-	if flightNumber == "" {
+func (s *LaunchesService) Get(flightNumber int) (*Launch, error) {
+	if flightNumber <= 0 {
 		return nil, ErrInvalidID
 	}
 
@@ -131,33 +137,33 @@ func (s *LaunchesService) Get(flightNumber string) (*Launch, error) {
 	return c, nil
 }
 
-func (s *LaunchesService) ListAll(opt *LaunchesListOptions) ([]*Launch, error) {
+func (s *LaunchesService) ListAll(baseOpt *ListOptions, extOpt *LaunchesListOptions) ([]*Launch, error) {
 	u := "launches"
-	return s.list(u, opt)
+	return s.list(u, baseOpt, extOpt)
 }
 
-func (s *LaunchesService) ListUpcoming(opt *LaunchesListOptions) ([]*Launch, error) {
+func (s *LaunchesService) ListUpcoming(baseOpt *ListOptions, extOpt *LaunchesListOptions) ([]*Launch, error) {
 	u := "launches/upcoming"
-	return s.list(u, opt)
+	return s.list(u, baseOpt, extOpt)
 }
 
-func (s *LaunchesService) ListPast(opt *LaunchesListOptions) ([]*Launch, error) {
+func (s *LaunchesService) ListPast(baseOpt *ListOptions, extOpt *LaunchesListOptions) ([]*Launch, error) {
 	u := "launches/past"
-	return s.list(u, opt)
+	return s.list(u, baseOpt, extOpt)
 }
 
-func (s *LaunchesService) ListLatest(opt *LaunchesListOptions) ([]*Launch, error) {
+func (s *LaunchesService) ListLatest(baseOpt *ListOptions, extOpt *LaunchesListOptions) ([]*Launch, error) {
 	u := "launches/latest"
-	return s.list(u, opt)
+	return s.list(u, baseOpt, extOpt)
 }
 
-func (s *LaunchesService) ListNext(opt *LaunchesListOptions) ([]*Launch, error) {
+func (s *LaunchesService) ListNext(baseOpt *ListOptions, extOpt *LaunchesListOptions) ([]*Launch, error) {
 	u := "launches/next"
-	return s.list(u, opt)
+	return s.list(u, baseOpt, extOpt)
 }
 
-func (s *LaunchesService) list(u string, opt *LaunchesListOptions) ([]*Launch, error) {
-	u, err := addOptions(u, opt)
+func (s *LaunchesService) list(u string, baseOpt *ListOptions, extOpt *LaunchesListOptions) ([]*Launch, error) {
+	u, err := addOptions(u, baseOpt, extOpt)
 	if err != nil {
 		return nil, err
 	}

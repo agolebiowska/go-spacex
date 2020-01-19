@@ -20,6 +20,10 @@ var (
 		Status: http.StatusBadRequest,
 		Msg:    "bad request: check query parameters",
 	}
+	ErrNotFound = ServerError{
+		Status: http.StatusNotFound,
+		Msg:    "nof found",
+	}
 	ErrUnauthorized = ServerError{
 		Status: http.StatusUnauthorized,
 		Msg:    "authentication failed: check for valid API key in user-key header",
@@ -47,6 +51,8 @@ func checkResponse(resp *http.Response) error {
 	switch resp.StatusCode {
 	case http.StatusOK:
 		return nil
+	case http.StatusNotFound:
+		return ErrNotFound
 	case http.StatusBadRequest:
 		return ErrBadRequest
 	case http.StatusUnauthorized:
@@ -64,7 +70,6 @@ func checkResponse(resp *http.Response) error {
 	log.Println(string(b))
 
 	var e ServerError
-
 	err = json.Unmarshal(b, &e)
 	if err != nil {
 		return errors.Wrap(err, "could not unmarshal server error message")

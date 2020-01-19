@@ -8,6 +8,7 @@ type LaunchPadsService service
 
 type LaunchPad struct {
 	ID                 int      `json:"id"`
+	Name               string   `json:"name"`
 	Status             string   `json:"status"`
 	Location           Location `json:"location"`
 	VehiclesLaunched   []string `json:"vehicles_launched"`
@@ -42,9 +43,9 @@ func (s *LaunchPadsService) Get(siteID string) (*LaunchPad, error) {
 	return c, nil
 }
 
-func (s *LaunchPadsService) ListAll(opt *LaunchPadsListOptions) ([]*LaunchPad, error) {
+func (s *LaunchPadsService) ListAll(baseOpt *ListOptions, extOpt *LaunchPadsListOptions) ([]*LaunchPad, error) {
 	u := "launchpads"
-	u, err := addOptions(u, opt)
+	u, err := addOptions(u, baseOpt, extOpt)
 	if err != nil {
 		return nil, err
 	}
