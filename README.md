@@ -9,13 +9,13 @@ go-spacex is a Go client library for accessing the [SpaceX API v3](https://docs.
 To pull the most recent version of `go-spacex`, use `go get`.
 
 ```shell
-$ go get github.com/agolebiowska/go-spacex
+$ go get github.com/agolebiowska/go-spacex/spacex
 ```
 
 Then import the package into your project as you normally would.
 
 ```go
-import "github.com/agolebiowska/go-spacex"
+import "github.com/agolebiowska/go-spacex/spacex"
 ```
 
 ## Usage
